@@ -15,10 +15,11 @@
  */
 import * as Benchmark from 'benchmark';
 import documentTests from './document_test';
+import toonieTests from './toonie_test';
 
 const suite = new Benchmark.Suite();
 
-const runners = [...documentTests];
+const runners = [...documentTests, ...toonieTests];
 
 runners.forEach(({ name, run }) => {
   suite.add(name, run);
@@ -28,4 +29,4 @@ suite
   .on('cycle', (event: Benchmark.Event) => {
     console.log(String(event.target));
   })
-  .run();
+  .run({ async: true });

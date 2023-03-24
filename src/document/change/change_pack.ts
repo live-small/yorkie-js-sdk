@@ -33,29 +33,36 @@ export class ChangePack {
    * `Checkpoint` is used to determine the client received changes.
    */
   private checkpoint: Checkpoint;
+  /**
+   * `isRemoved` is a flag that indicates whether the document is removed.
+   */
+  private isRemoved: boolean;
 
   private changes: Array<Change>;
 
   /**
-   * `snapshot` is a byte array that encode the document.
+   * `snapshot` is a byte array that encodes the document.
    */
   private snapshot?: Uint8Array;
 
   /**
    * `minSyncedTicket` is the minimum logical time taken by clients who attach
-   * the document. It used to collect garbage on the replica on the client.
+   * to the document. It is used to collect garbage on the replica on the
+   * client.
    */
   private minSyncedTicket?: TimeTicket;
 
   constructor(
     key: string,
     checkpoint: Checkpoint,
+    isRemoved: boolean,
     changes: Array<Change>,
     snapshot?: Uint8Array,
     minSyncedTicket?: TimeTicket,
   ) {
     this.documentKey = key;
     this.checkpoint = checkpoint;
+    this.isRemoved = isRemoved;
     this.changes = changes;
     this.snapshot = snapshot;
     this.minSyncedTicket = minSyncedTicket;
@@ -67,11 +74,19 @@ export class ChangePack {
   public static create(
     key: string,
     checkpoint: Checkpoint,
+    isRemoved: boolean,
     changes: Array<Change>,
     snapshot?: Uint8Array,
     minSyncedTicket?: TimeTicket,
   ): ChangePack {
-    return new ChangePack(key, checkpoint, changes, snapshot, minSyncedTicket);
+    return new ChangePack(
+      key,
+      checkpoint,
+      isRemoved,
+      changes,
+      snapshot,
+      minSyncedTicket,
+    );
   }
 
   /**
@@ -86,6 +101,13 @@ export class ChangePack {
    */
   public getCheckpoint(): Checkpoint {
     return this.checkpoint;
+  }
+
+  /**
+   * `getIsRemoved` returns the whether this document is removed.
+   */
+  public getIsRemoved(): boolean {
+    return this.isRemoved;
   }
 
   /**

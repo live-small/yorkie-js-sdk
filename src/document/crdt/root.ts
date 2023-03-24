@@ -32,11 +32,11 @@ interface CRDTElementPair {
 }
 
 /**
- * `CRDTRoot` is a structure represents the root. It has a hash table of
+ * `CRDTRoot` is a structure that represents the root. It has a hash table of
  * all elements to find a specific element when applying remote changes
  * received from server.
  *
- * Every element has a unique time ticket at creation, which allows us to find
+ * Every element has a unique `TimeTicket` at creation, which allows us to find
  * a particular element.
  */
 export class CRDTRoot {
@@ -140,7 +140,7 @@ export class CRDTRoot {
   }
 
   /**
-   * `registerRemovedElement` registers the given element to hash table.
+   * `registerRemovedElement` registers the given element to the hash set.
    */
   public registerRemovedElement(element: CRDTElement): void {
     this.removedElementSetByCreatedAt.add(element.getCreatedAt().toIDString());
@@ -175,7 +175,7 @@ export class CRDTRoot {
   }
 
   /**
-   * `getGarbageLen` returns length of nodes which should garbage collection task
+   * `getGarbageLen` returns length of nodes which can be garbage collected.
    */
   public getGarbageLen(): number {
     let count = 0;

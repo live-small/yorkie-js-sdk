@@ -53,7 +53,7 @@ export abstract class Operation {
   }
 
   /**
-   * `getEffectedCreatedAt` returns the time of the effected element.
+   * `getEffectedCreatedAt` returns the creation time of the effected element.
    */
   public abstract getEffectedCreatedAt(): TimeTicket;
 
@@ -63,7 +63,7 @@ export abstract class Operation {
   public abstract getStructureAsString(): string;
 
   /**
-   * `execute` executes this operation on the given document(`root`).
+   * `execute` executes this operation on the given `CRDTRoot`.
    */
   public abstract execute(root: CRDTRoot): void;
 }
